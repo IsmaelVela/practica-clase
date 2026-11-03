@@ -11,7 +11,15 @@ void main() {
 
     opcion = IO.readln("¿Que quieres hacer?: ");
     switch (opcion){
-        case "1" -> IO.println("Quieres hacer un ticket");
+        case "1" -> {
+            IO.println("Quieres hacer un ticket");
+            //Codigo
+            String residente =  IO.readln("¿Eres residente Si/No?: ");
+            if (residente.equals("si")){
+                double dinero = Double.parseDouble(IO.readln("Introduce el dinero: "));
+            }
+        }
+
         case "2" -> {
             IO.println("""
            * ANULAR UNA MULTA *
