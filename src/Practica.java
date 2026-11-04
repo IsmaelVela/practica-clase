@@ -31,6 +31,7 @@ void main() {
             switch (motivo) {
                 case "1" -> {
                     IO.println("Por exceder el tiempo permitido");
+                    int numeroTicket = Integer.parseInt(IO.readln("Introduce tu numero de tu ticker: "));
                     // codigo
                     if (motivo.equals("1")){
                         multa = MULTA_EXCESO;
