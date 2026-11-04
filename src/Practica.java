@@ -33,32 +33,58 @@ void main() {
                     IO.println("Por exceder el tiempo permitido");
                     int numeroTicket = Integer.parseInt(IO.readln("Introduce tu numero de tu ticker: "));
                     // codigo
-                    if (motivo.equals("1")){
-                        multa = MULTA_EXCESO;
-                        IO.println("El importe de la multa es: " + multa);
+                    if ((numeroTicket - 7) % 3 != 0){
+                        IO.println("El numero de ticket no es válido");
+                    }else{
+                        multa = 300; //precio de la multa en euros;
+                        IO.println("El importe de las multa es: " + multa);
                         double precio = Double.parseDouble(IO.readln("Introduce el dinero: "));
                         int centimos = (int) Math.round(precio * 100);
+
                         if (centimos < multa) {
                             IO.println("La cantidad introducida es induficiente");
                         }else{
                             multaAnulada ++;
                             dineroMulta += multa;
+                            IO.println("""
+                                    \n TICKET
+                                    Mmotivo: Por exceder el tiempo permitido.
+                                    Numero de tickter: %d
+                                    Pago: %.2f Euros
+                                    """.formatted(numeroTicket, multa /100.0));
+                            if (centimos > multa) {
+                                IO.println("Cambio: " + (centimos - multa) / 100.0 + " Euros");
+                            }
                         }
                     }
+
                 }
                 case "2" -> {
                     IO.println("Por carecer de un ticket");
+                    int numeroTicket = Integer.parseInt(IO.readln("Introduce tu numero de tu ticker: "));
                     // codigo
-                    if (motivo.equals("2")){
-                        multa = MULTA_NO_TICKET;
-                        IO.println("El importe de la multa es: " + multa);
+                    if ((numeroTicket - 7) % 3 != 0){
+                        IO.println("El numero de ticket no es válido");
+                    }else{
+                        multa = 600; //precio de la multa en centimos;
+                        IO.println("El importe de las multa es: " + multa);
                         double precio = Double.parseDouble(IO.readln("Introduce el dinero: "));
                         int centimos = (int) Math.round(precio * 100);
+
                         if (centimos < multa) {
                             IO.println("La cantidad introducida es induficiente");
                         }else{
                             multaAnulada ++;
                             dineroMulta += multa;
+                            IO.println("""
+                                    \n TICKET
+                                    Mmotivo: Por exceder el tiempo permitido.
+                                    Numero de tickter: %d
+                                    Pago: %.2f Euros
+                                    """.formatted(numeroTicket, multa /100.0));
+                            if (centimos > multa) {
+                                IO.println("Cambio: " + (centimos - multa) / 100.0 + " Euros");
+                            }
                         }
                     }
                 }
