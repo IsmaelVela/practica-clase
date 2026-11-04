@@ -19,18 +19,48 @@ void main() {
                 double dinero = Double.parseDouble(IO.readln("Introduce el dinero: "));
             }
         }
-
         case "2" -> {
             IO.println("""
            * ANULAR UNA MULTA *
            1. Por exceder el tiempo permitido
            2. Por carecer de ticket\n""");
             String motivo = IO.readln("Selecciona el motivo de la anulación: ");
+            int multa = 0, dineroMulta = 0, multaAnulada = 0;
+            final int MULTA_EXCESO = 0, MULTA_NO_TICKET = 0;
+
             switch (motivo) {
-                case "1" -> IO.println("Por exceder el tiempo permitido");
-                // codigo
-                case "2" -> IO.println("Por carecer de un ticket");
-                // ccodigo
+                case "1" -> {
+                    IO.println("Por exceder el tiempo permitido");
+                    // codigo
+                    if (motivo.equals("1")){
+                        multa = MULTA_EXCESO;
+                        IO.println("El importe de la multa es: " + multa);
+                        double precio = Double.parseDouble(IO.readln("Introduce el dinero: "));
+                        int centimos = (int) Math.round(precio * 100);
+                        if (centimos < multa) {
+                            IO.println("La cantidad introducida es induficiente");
+                        }else{
+                            multaAnulada ++;
+                            dineroMulta += multa;
+                        }
+                    }
+                }
+                case "2" -> {
+                    IO.println("Por carecer de un ticket");
+                    // codigo
+                    if (motivo.equals("2")){
+                        multa = MULTA_NO_TICKET;
+                        IO.println("El importe de la multa es: " + multa);
+                        double precio = Double.parseDouble(IO.readln("Introduce el dinero: "));
+                        int centimos = (int) Math.round(precio * 100);
+                        if (centimos < multa) {
+                            IO.println("La cantidad introducida es induficiente");
+                        }else{
+                            multaAnulada ++;
+                            dineroMulta += multa;
+                        }
+                    }
+                }
                 default -> IO.println("Opción no válida.");
             }
         }
