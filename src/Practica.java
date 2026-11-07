@@ -1,14 +1,27 @@
 void main() {
     String opcion;
+    int ticketsGenerados = 0, multasAnuladas = 0;
+    double dineroTickets = 0, dineroMultas = 0;
+    boolean apagar = false;
      do {
-    IO.println("""
-    --------------MENU PRINCIPAL-----------------
-    1. Obtener un ticket
-    2. Anular una multa
-    3. consultar fecha y hora actual, tarifas y horarios
-    4. Menu de administrador\n""");
-
-
+         IO.println("""
+╔══════════════════════════════════════════════╗
+║              MENÚ PRINCIPAL                  ║
+╠══════════════════════════════════════════════╣
+║                                              ║
+║       1. Obtener un ticket                   ║
+║                                              ║
+║       2. Anular una multa                    ║
+║                                              ║
+║       3. Consultar fecha, hora,              ║
+║          tarifas y horarios                  ║
+║                                              ║
+║       4. Menú de administrador               ║
+║                                              ║
+╠══════════════════════════════════════════════╣
+║          AYUNTAMIENTO DE MARTOS              ║
+╚══════════════════════════════════════════════╝
+""");
     opcion = IO.readln("¿Que quieres hacer?: ");
     switch (opcion){
         case "1" -> {
@@ -43,7 +56,7 @@ void main() {
                 precio2 = 0.45;
                 precio3 = 0.85;
                 precio4 = 1.25;
-                precio5 = 1.75;
+                precio5 = 1.70;
             }
             IO.println("""
             ---Tarifas seleccionadas---
@@ -124,19 +137,27 @@ void main() {
 
                 }
                 //Se hace la impresión del ticket con todos los datos
+                ticketsGenerados ++;
+                dineroTickets += importe;
                 IO.println("""
-        ========================
-                  TICKET
-        ========================
-        Codigo: %d
-        Fecha importe: %s
-        Fecha vencimiento: %s
-        Importe pagado: %.2f euros
-        Ayuntamiento de Martos
-        
-        ========================="""
-                        .formatted(codigo,fechaActual.format(formato),vencimiento.format(formato),importe));
-
+╔══════════════════════════════════════╗
+║                 TICKET               ║
+╠══════════════════════════════════════╣
+║                                      ║
+║  Código: %d
+║                                      ║
+║  Fecha de emisión:                   ║
+║  %s
+║                                      ║
+║  Fecha de vencimiento:               ║
+║  %s
+║                                      ║
+║  Importe pagado: %.2f euros
+║                                      ║
+║       AYUNTAMIENTO DE MARTOS         ║
+║                                      ║
+╚══════════════════════════════════════╝
+""".formatted(codigo, fechaActual.format(formato), vencimiento.format(formato), importe));
             }
         }
         case "2" -> {
@@ -172,31 +193,68 @@ void main() {
             }
             //Ahora le pedimos al usuario que introduzaca el dinero
             if (multa > 0) {
-                double pagoMulta = Double.parseDouble(
-                        IO.readln("Introduce el dinero: "));
+                double pagoMulta = Double.parseDouble(IO.readln("Introduce el dinero: "));
 
                 if ( pagoMulta >= multa) {
                     IO.println("La multa se ha pagado correctamente");
                     //Se geenra el codigo de la multa
+                    multasAnuladas++;
+                    dineroMultas += multa;
                     int aleatorioMulta = (int) (Math.random() * 9000000) + 1000000;
                     int codigoMulta = aleatorioMulta * 2 + 15 ;
                     //Impresion del ticket de multa
                     IO.println("""
-                            =========================
-                              TICKET DE ANULACIÓN
-                            =========================
-                            Codigo de la Multa: %d
-                            Motivo: %s
-                            Importe pagado: %.2f euros
-                            Ayuntamiento de Martos
-                            =========================""".formatted(codigoMulta,motivoMulta.equals("1")
-                            ? "Exceso del tiempo permitido" : "No tiene ticket", multa));
+╔══════════════════════════════════════╗
+║                                      ║
+║          TICKET DE ANULACIÓN         ║
+║                                      ║
+╠══════════════════════════════════════╣
+║                                      ║
+║  Código de multa: %d
+║                                      ║
+║  Motivo: %s
+║                                      ║
+║  Importe pagado: %.2f euros
+║                                      ║
+║       AYUNTAMIENTO DE MARTOS         ║
+║                                      ║
+╚══════════════════════════════════════╝
+""".formatted(codigoMulta, motivoMulta.equals("1") ? "Exceso del tiempo permitido" : "No tiene ticket", multa));
                 } else {
                     IO.println("La cantidad introducida es insuficiente");
                 }
             }
         }
-        case "3" -> IO.println("Consultar fecha y hora actual, tarifas y horarios");
+        case "3" -> {
+            IO.println("Consultar fecha y hora actual, tarifas y horarios");
+            java.time.format.DateTimeFormatter formato =
+                    java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            IO.println("""
+      ╔════════════════════════════════════════════╗
+      ║                INFORMACIÓN                 ║
+      ╠════════════════════════════════════════════╣
+      ║  Fecha y hora actual: %-21s║
+      ╠════════════════════════════════════════════╣
+      ║                  TARIFAS                   ║
+      ║                                            ║
+      ║  Duración    No residentes   Residentes    ║
+      ║  ────────────────────────────────────────  ║
+      ║  00:15:00    0,25 €          0,10 €        ║
+      ║  00:29:50    0,45 €          0,20 €        ║
+      ║  00:59:31    0,85 €          0,40 €        ║
+      ║  01:29:12    1,25 €          0,60 €        ║
+      ║  02:00:00    1,70 €          0,80 €        ║
+      ╠════════════════════════════════════════════╣
+      ║                 HORARIOS                   ║
+      ║                                            ║
+      ║  Lunes a viernes:                          ║
+      ║    09:00 - 14:00 y 17:00 - 21:00           ║
+      ║  Sábado: 09:00 - 14:00                     ║
+      ║  Domingo: cerrado                          ║
+      ╚════════════════════════════════════════════╝
+      """.formatted(java.time.LocalDateTime.now().format(formato)));
+        }
+
         case "4" -> {
             IO.println("""
             * MENU DE ADMINISTRADOR *
@@ -205,16 +263,34 @@ void main() {
             3. Apagar el software\n""");
 
             String menuAdministrador = IO.readln("Que quieres ver: ");
-            switch (menuAdministrador){
-                case "1" -> IO.println("Tickets generados");
-                //codigo
-                case "2" -> IO.println("Multas anuladas");
-                //codigo
-                case "3" -> IO.println("Apagando el software");
-                //codigo
-            }
+            if (menuAdministrador.equals("1")){
+                IO.println("""
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         RESUMEN DE TICKETS                                   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│       Tickets generados:                     %d                              │
+│       Dinero ingresado en tickets:           %.2f euros                      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                         AYUNTAMIENTO DE MARTOS                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+""".formatted(ticketsGenerados, dineroTickets));
+            } else if (menuAdministrador.equals("2")) {
+                IO.println("""
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         RESUMEN DE MULTAS                                    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│       Multas anuladas:                         %d                            │
+│       Dinero ingresado por multas:             %.2f euros                    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                         AYUNTAMIENTO DE MARTOS                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+""".formatted(multasAnuladas, dineroMultas));
+            }else if (menuAdministrador.equals("3")){
+                IO.println("Apagando el doftware");
+                apagar = true;
+            }else IO.println("Opcion no valida");
         }
         default -> IO.println("Opción no válida");
     }
-}while(!opcion.equals("0"));
+}while(!apagar);
 }
