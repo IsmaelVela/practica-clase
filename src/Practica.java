@@ -16,7 +16,8 @@ void main() {
             boolean residente, abierto;
             String respuesta;
             double precio1, precio2, precio3, precio4, precio5, importe, precioImporte = 0;
-            int duracion, codigo = (int) (Math.random() *900000) + 100000;
+            int duracion, aleatorio = (int) (Math.random() * 300000) + 100000;
+            int codigo = aleatorio * 3 +7;
             LocalDateTime fechaActual = LocalDateTime.now();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             LocalDateTime vencimiento = fechaActual;
@@ -139,75 +140,60 @@ void main() {
             }
         }
         case "2" -> {
+            //Display del menú en que el pondremos al ususario que elija que motivo tiene para pagar la multa
             IO.println("""
            * ANULAR UNA MULTA *
            1. Por exceder el tiempo permitido
            2. Por carecer de ticket\n""");
-            String motivo = IO.readln("Selecciona el motivo de la anulación: ");
-            int multa = 0, dineroMulta = 0, multaAnulada = 0;
-            final int MULTA_EXCESO = 0, MULTA_NO_TICKET = 0;
 
-            switch (motivo) {
-                case "1" -> {
-                    IO.println("Por exceder el tiempo permitido");
-                    int numeroTicket = Integer.parseInt(IO.readln("Introduce tu numero de tu ticker: "));
-                    // codigo
-                    if ((numeroTicket - 7) % 3 != 0){
-                        IO.println("El numero de ticket no es válido");
-                    }else{
-                        multa = 300; //precio de la multa en euros;
-                        IO.println("El importe de las multa es: " + multa);
-                        double precio = Double.parseDouble(IO.readln("Introduce el dinero: "));
-                        int centimos = (int) Math.round(precio * 100);
+            String motivoMulta = IO.readln("Selecciona el motivo de la anulación: ");
 
-                        if (centimos < multa) {
-                            IO.println("La cantidad introducida es induficiente");
-                        }else{
-                            multaAnulada ++;
-                            dineroMulta += multa;
-                            IO.println("""
-                                    \n TICKET
-                                    Mmotivo: Por exceder el tiempo permitido.
-                                    Numero de tickter: %d
-                                    Pago: %.2f Euros
-                                    """.formatted(numeroTicket, multa /100.0));
-                            if (centimos > multa) {
-                                IO.println("Cambio: " + (centimos - multa) / 100.0 + " Euros");
-                            }
-                        }
-                    }
-
+            double multa = 0;
+            //Si selecciona 1 la multa a pagar seria de 3 euros
+            if (motivoMulta.equals("1")) {
+                multa = 3.00;
+                IO.println("Multa por exceder el tiempo: 3,00 euros");
+                //Introduce un ticket, sea valido o  no
+                int numeroTicket = Integer.parseInt(
+                        IO.readln("Introduce el número de ticket: "));
+                //Aplicando la formula que tenemos para generar al codigo pero ahora aplicado a la inversa.
+                //En el caso de que sea distinto a cero no es valido, y si si es valido
+                if ((numeroTicket - 7) % 3 != 0) {
+                    IO.println("El número de ticket no es válido");
+                    multa = 0;
                 }
-                case "2" -> {
-                    IO.println("Por carecer de un ticket");
-                    int numeroTicket = Integer.parseInt(IO.readln("Introduce tu numero de tu ticker: "));
-                    // codigo
-                    if ((numeroTicket - 7) % 3 != 0){
-                        IO.println("El numero de ticket no es válido");
-                    }else{
-                        multa = 600; //precio de la multa en centimos;
-                        IO.println("El importe de las multa es: " + multa);
-                        double precio = Double.parseDouble(IO.readln("Introduce el dinero: "));
-                        int centimos = (int) Math.round(precio * 100);
+                //Caso 2, no tener un ticket. la multa es de 6 euros
+            } else if (motivoMulta.equals("2")) {
+                multa = 6.00;
+                IO.println("Multa por carecer de ticket: 6,00 euros");
 
-                        if (centimos < multa) {
-                            IO.println("La cantidad introducida es induficiente");
-                        }else{
-                            multaAnulada ++;
-                            dineroMulta += multa;
-                            IO.println("""
-                                    \n TICKET
-                                    Mmotivo: Por exceder el tiempo permitido.
-                                    Numero de tickter: %d
-                                    Pago: %.2f Euros
-                                    """.formatted(numeroTicket, multa /100.0));
-                            if (centimos > multa) {
-                                IO.println("Cambio: " + (centimos - multa) / 100.0 + " Euros");
-                            }
-                        }
-                    }
+            } else {
+                IO.println("Opción no válida");
+            }
+            //Ahora le pedimos al usuario que introduzaca el dinero
+            if (multa > 0) {
+                double pagoMulta = Double.parseDouble(
+                        IO.readln("Introduce el dinero: "));
+
+                if ( pagoMulta >= multa) {
+                    IO.println("La multa se ha pagado correctamente");
+                    //Se geenra el codigo de la multa
+                    int aleatorioMulta = (int) (Math.random() * 9000000) + 1000000;
+                    int codigoMulta = aleatorioMulta * 2 + 15 ;
+                    //Impresion del ticket de multa
+                    IO.println("""
+                            =========================
+                              TICKET DE ANULACIÓN
+                            =========================
+                            Codigo de la Multa: %d
+                            Motivo: %s
+                            Importe pagado: %.2f euros
+                            Ayuntamiento de Martos
+                            =========================""".formatted(codigoMulta,motivoMulta.equals("1")
+                            ? "Exceso del tiempo permitido" : "No tiene ticket", multa));
+                } else {
+                    IO.println("La cantidad introducida es insuficiente");
                 }
-                default -> IO.println("Opción no válida.");
             }
         }
         case "3" -> IO.println("Consultar fecha y hora actual, tarifas y horarios");
