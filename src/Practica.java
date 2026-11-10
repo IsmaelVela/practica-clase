@@ -4,6 +4,8 @@ void main() {
     double dineroTickets = 0, dineroMultas = 0;
     boolean apagar = false;
      do {
+         String usuarioAdministrador = "Admin";
+         String claveAdministrador = "1234";
          IO.println("""
 ╔══════════════════════════════════════════════╗
 ║              MENÚ PRINCIPAL                  ║
@@ -226,6 +228,8 @@ void main() {
             }
         }
         case "3" -> {
+            /*Utilizamos el "time.format.DateTimeFornatter" para que al elegit la opcion 3 nos muestre la fecha actual
+            y la hora actual, independiente mente del dia en que lo consultemos*/
             IO.println("Consultar fecha y hora actual, tarifas y horarios");
             java.time.format.DateTimeFormatter formato =
                     java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -256,15 +260,30 @@ void main() {
         }
 
         case "4" -> {
-            IO.println("""
-            * MENU DE ADMINISTRADOR *
-            1. Dinero ingresado en tickets y tickets generados
-            2. Dinero ingresado por multas y multas anuladas
-            3. Apagar el software\n""");
-
-            String menuAdministrador = IO.readln("Que quieres ver: ");
-            if (menuAdministrador.equals("1")){
+            /*Pedimos usuario y clave y se compara con el usario y clave del administrador, si es la misma se le permite
+            entrar al menu de administrador, si no ess la misma no se le da acceso al menu*/
+            String usuario= IO.readln("Introduce tu usuario: ");
+            String clave = IO.readln("Introduce tu clave: ");
+            if (usuario.equals(usuarioAdministrador) && clave.equals(claveAdministrador)){
+                IO.println("Usuario logueado. Bienvenido!!");
                 IO.println("""
+╔══════════════════════════════════════════╗
+║          MENU DE ADMINISTRADOR           ║
+╠══════════════════════════════════════════╣
+║  1. Dinero ingresado en tickets y        ║
+║     tickets generados                    ║
+║                                          ║
+║  2. Dinero ingresado por multas y        ║
+║     multas anuladas                      ║
+║                                          ║
+║  3. Apagar el software                   ║
+╠══════════════════════════════════════════╣
+║          AYUNTAMIENTO DE MARTOS          ║
+╚══════════════════════════════════════════╝
+""");
+                String menuAdministrador = IO.readln("Que quieres ver: ");
+                if (menuAdministrador.equals("1")){
+                    IO.println("""
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                         RESUMEN DE TICKETS                                   │
 ├──────────────────────────────────────────────────────────────────────────────┤
@@ -274,8 +293,8 @@ void main() {
 │                         AYUNTAMIENTO DE MARTOS                               │
 └──────────────────────────────────────────────────────────────────────────────┘
 """.formatted(ticketsGenerados, dineroTickets));
-            } else if (menuAdministrador.equals("2")) {
-                IO.println("""
+                } else if (menuAdministrador.equals("2")) {
+                    IO.println("""
 ┌──────────────────────────────────────────────────────────────────────────────┐
 │                         RESUMEN DE MULTAS                                    │
 ├──────────────────────────────────────────────────────────────────────────────┤
@@ -285,10 +304,11 @@ void main() {
 │                         AYUNTAMIENTO DE MARTOS                               │
 └──────────────────────────────────────────────────────────────────────────────┘
 """.formatted(multasAnuladas, dineroMultas));
-            }else if (menuAdministrador.equals("3")){
-                IO.println("Apagando el doftware");
-                apagar = true;
-            }else IO.println("Opcion no valida");
+                }else if (menuAdministrador.equals("3")){
+                    IO.println("Apagando el doftware");
+                    apagar = true;
+                }else IO.println("Opcion no valida");
+            }else IO.println("Usuario incorrecto");
         }
         default -> IO.println("Opción no válida");
     }
