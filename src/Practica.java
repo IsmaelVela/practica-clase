@@ -300,7 +300,10 @@ void main() {
                             │                         AYUNTAMIENTO DE MARTOS                               │
                             └──────────────────────────────────────────────────────────────────────────────┘
                             """.formatted(multasAnuladas, dineroMultas));
-                }
+                } else if (menuAdministrador.equals("3")) {
+                    IO.println("Apagando el Sotfware");
+                    apagar = true;
+                }else IO.println("opcion no válida");
 
             }
             default -> IO.println("Opción no válida");
