@@ -1,11 +1,10 @@
 void main() {
-    String opcion;
-    int ticketsGenerados = 0, multasAnuladas = 0;
+    final String USUARIO = "admin" , CLAVE ="1234 ";
+    String opcion, usuarioTeclado, claveTeclado;
+    int ticketsGenerados = 0, multasAnuladas = 0, intentosAdministrador = 0;
     double dineroTickets = 0, dineroMultas = 0;
     boolean apagar = false;
     do {
-        String usuarioAdministrador = "Admin";
-        String claveAdministrador = "1234";
         IO.println("""
                 ╔══════════════════════════════════════════════╗
                 ║              MENÚ PRINCIPAL                  ║
@@ -261,8 +260,24 @@ void main() {
             }
 
             case "4" -> {
-                IO.println("Usuario logueado. Bienvenido!!");
-                IO.println("""
+               do {
+                    usuarioTeclado = IO.readln("Ingrese el usuario: ");
+                    claveTeclado = IO.readln("Ingrese la clave: ");
+
+                    if (!USUARIO.equalsIgnoreCase(usuarioTeclado) || !CLAVE.equalsIgnoreCase(claveTeclado)){
+                        IO.println("Usuario o clave erroneos");
+                        intentosAdministrador++;
+
+                    }
+                    IO.println();
+               } while ((!USUARIO.equalsIgnoreCase(usuarioTeclado) || !CLAVE.equalsIgnoreCase(claveTeclado))
+                       && intentosAdministrador < 3);
+
+               if (intentosAdministrador == 3){
+                   IO.println("Sesion no iniciada con éxito");
+               } else {
+                   IO.println("Usuario logueado. Bienvenido!!");
+                   IO.println("""
                         ╔══════════════════════════════════════════╗
                         ║          MENU DE ADMINISTRADOR           ║
                         ╠══════════════════════════════════════════╣
@@ -277,9 +292,9 @@ void main() {
                         ║          AYUNTAMIENTO DE MARTOS          ║
                         ╚══════════════════════════════════════════╝
                         """);
-                String menuAdministrador = IO.readln("Que quieres ver: ");
-                if (menuAdministrador.equals("1")) {
-                    IO.println("""
+                   String menuAdministrador = IO.readln("Que quieres ver: ");
+                   if (menuAdministrador.equals("1")) {
+                       IO.println("""
                             ┌──────────────────────────────────────────────────────────────────────────────┐
                             │                         RESUMEN DE TICKETS                                   │
                             ├──────────────────────────────────────────────────────────────────────────────┤
@@ -289,8 +304,8 @@ void main() {
                             │                         AYUNTAMIENTO DE MARTOS                               │
                             └──────────────────────────────────────────────────────────────────────────────┘
                             """.formatted(ticketsGenerados, dineroTickets));
-                } else if (menuAdministrador.equals("2")) {
-                    IO.println("""
+                   } else if (menuAdministrador.equals("2")) {
+                       IO.println("""
                             ┌──────────────────────────────────────────────────────────────────────────────┐
                             │                         RESUMEN DE MULTAS                                    │
                             ├──────────────────────────────────────────────────────────────────────────────┤
@@ -300,12 +315,14 @@ void main() {
                             │                         AYUNTAMIENTO DE MARTOS                               │
                             └──────────────────────────────────────────────────────────────────────────────┘
                             """.formatted(multasAnuladas, dineroMultas));
-                } else if (menuAdministrador.equals("3")) {
-                    IO.println("Apagando el Sotfware");
-                    apagar = true;
-                }else IO.println("opcion no válida");
+                   } else if (menuAdministrador.equals("3")) {
+                       IO.println("Apagando el Sotfware");
+                       apagar = true;
+                   }else IO.println("opcion no válida");
 
-            }
+               }
+               }
+
             default -> IO.println("Opción no válida");
         }
     }while (!apagar);
