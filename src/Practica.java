@@ -1,10 +1,12 @@
 void main() {
+    //Declaramos e inicializamos las variables
     final String USUARIO = "admin" , CLAVE ="1234";
     String opcion, usuarioTeclado, claveTeclado;
     int ticketsGenerados = 0, multasAnuladas = 0, intentosAdministrador = 0;
     double dineroTickets = 0, dineroMultas = 0;
     boolean apagar = false;
     do {
+        //Pintamos el menu de inicio
         IO.println("""
                 ╔══════════════════════════════════════════════╗
                 ║              MENÚ PRINCIPAL                  ║
