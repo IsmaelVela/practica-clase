@@ -1,0 +1,2 @@
+- Necesitas tener Java instalado para ejecutarlo. Abres el archivo y ya, no hace falta mas.
+- El usuario y contraseña del panel de admin del programa es (admin , 1234).
